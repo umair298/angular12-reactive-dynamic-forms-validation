@@ -1,0 +1,46 @@
+<form [formGroup]="dynamicForm" class="form form-label-right" (ngSubmit)="onSubmit()">
+  <div class="card m-3">
+      <h5 class="card-header">Angular 12 Dynamic Reactive Forms Validation Example</h5>      
+      <div *ngFor="let user of userFormGroups; let i = index" class="list-group list-group-flush">
+          <div class="list-group-item">
+              <h5 class="card-title">User {{i + 1}}</h5>
+              <div [formGroup]="user" class="form-row">
+                  <div class="form-group col-3">
+                      <label>First Name</label>
+                      <input type="text" formControlName="firstName" class="form-control" [class.is-invalid]="isControlInvalid('firstName',user)" placeholder="First Name"
+                      [class.is-valid]="isControlValid('firstName',user)" />    
+                      <div class="valid-feedback" *ngIf="isControlValid('firstName',user)">First Name was entered correct</div>
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'firstName',user)">First Name is required</div>
+                      <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'firstName',user)">First Name should have atleast 3 symbols</div>
+                      <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'firstName',user)">First Name should have maximum 100 symbols</div>                  
+                  </div>
+                  <div class="form-group col-3">
+                    <label>Last Name</label>
+                    <input type="text" formControlName="lastName" class="form-control" [class.is-invalid]="isControlInvalid('lastName',user)" placeholder="Last Name"
+                    [class.is-valid]="isControlValid('lastName',user)" />    
+                    <div class="valid-feedback" *ngIf="isControlValid('lastName',user)">Last Name was entered correct</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'lastName',user)">Last Name is required</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'lastName',user)">Last Name should have atleast 3 symbols</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'lastName',user)">Last Name should have maximum 100 symbols</div>                  
+                </div>
+                <div class="form-group col-3">
+                  <label>Email</label>
+                  <input type="email" class="form-control" name="email" placeholder="Email" autocomplete="off" [class.is-invalid]="isControlInvalid('email',user)" [class.is-valid]="isControlValid('email',user)" formControlName="email" />                
+                  <div class="valid-feedback" *ngIf="isControlValid('email',user)">Email was entered correct</div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('required', 'email',user)">Email is required</div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('email', 'email',user)">Email format is incorrect</div>
+                </div>
+                <div class="form-group col-3">
+                  <label>Action</label>
+                  <button class="btn btn-danger mr-1 form-control" (click)="remove(i)">Remove</button>
+                </div>                                                            
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="card-footer text-center border-top-0">
+          <button class="btn btn-primary mr-1" [disabled]="dynamicForm.invalid" (click)="add()">Add User</button>
+          <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
+          <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button>
+      </div>  
+</form>
